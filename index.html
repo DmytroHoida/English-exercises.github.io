@@ -216,7 +216,7 @@
 <div class="bg">
 
   <div class="header">
-    <h1>Unit 30 — Can &amp; Could</h1>
+    <h1>Can &amp; Could</h1>
     <p>Complete all exercises and check your answers to unlock the secret keyword!</p>
   </div>
 
@@ -227,7 +227,7 @@
       <div class="img-box">🏊<span class="img-label">1. swim</span></div>
       <div class="img-box">⛷️<span class="img-label">2. ski</span></div>
       <div class="img-box">♟️<span class="img-label">3. chess</span></div>
-      <div class="img-box">🏃<span class="img-label">4. run 10 km</span></div>
+      <div class="img-box">🏃<span class="img-label">4. run 10 kilometres</span></div>
       <div class="img-box">🚗<span class="img-label">5. drive</span></div>
       <div class="img-box">🐎<span class="img-label">6. ride a horse</span></div>
     </div>
@@ -257,10 +257,10 @@
     </div>
     <div class="sentence-block">
       1. I'm sorry, but we <span class="given">can't come</span> to your party next Saturday.<br>
-      2. I like this hotel room. You <input class="fill-input" id="s2" placeholder="can/can't + verb"> the mountains from the window.<br>
-      3. You are speaking very quietly. I <input class="fill-input" id="s3" placeholder="can/can't + verb"> you.<br>
-      4. Have you seen my bag? I <input class="fill-input" id="s4" placeholder="can/can't + verb"> it.<br>
-      5. Catherine got the job because she <input class="fill-input" id="s5" placeholder="can/can't + verb"> five languages.
+      2. I like this hotel room. You <input class="fill-input" id="s2"> the mountains from the window.<br>
+      3. You are speaking very quietly. I <input class="fill-input" id="s3"> you.<br>
+      4. Have you seen my bag? I <input class="fill-input" id="s4"> it.<br>
+      5. Catherine got the job because she <input class="fill-input" id="s5"> five languages.
     </div>
     <button class="check-btn" onclick="check32()">Check answers</button>
     <div class="score" id="s32-score"></div>
@@ -279,11 +279,11 @@
     </div>
     <div class="sentence-block">
       1. I was tired, but I <span class="given">couldn't sleep</span>.<br>
-      2. I wasn't hungry yesterday. I <input class="fill-input" id="t2" placeholder="can't/couldn't + verb"> my dinner.<br>
-      3. Kate doesn't know what to do. She <input class="fill-input" id="t3" placeholder="can't/couldn't + verb">.<br>
-      4. I wanted to speak to Mark yesterday, but I <input class="fill-input" id="t4" placeholder="can't/couldn't + verb"> him.<br>
-      5. James <input class="fill-input" id="t5" placeholder="can't/couldn't + verb"> to the concert next Saturday. He has to work.<br>
-      6. Paula <input class="fill-input" id="t6" placeholder="can't/couldn't + verb"> to the meeting last week. She was ill.
+      2. I wasn't hungry yesterday. I <input class="fill-input" id="t2"> my dinner.<br>
+      3. Kate doesn't know what to do. She <input class="fill-input" id="t3" >.<br>
+      4. I wanted to speak to Mark yesterday, but I <input class="fill-input" id="t4"> him.<br>
+      5. James <input class="fill-input" id="t5"> to the concert next Saturday. He has to work.<br>
+      6. Paula <input class="fill-input" id="t6"> to the meeting last week. She was ill.
     </div>
     <button class="check-btn" onclick="check33()">Check answers</button>
     <div class="score" id="s33-score"></div>
@@ -300,28 +300,28 @@
       </div>
       <div class="sit-card">
         <div class="sit-img">🧂🍽️</div>
-        <div class="sit-hint">(pass / salt)</div>
-        <input class="sit-input" id="p2" placeholder="Could/Can you...?">
+        <div class="sit-hint">(pass / the salt)</div>
+        <input class="sit-input" id="p2">
       </div>
       <div class="sit-card">
         <div class="sit-img">📮🗺️</div>
         <div class="sit-hint">(have / postcards)</div>
-        <input class="sit-input" id="p3" placeholder="Can/Could I...?">
+        <input class="sit-input" id="p3">
       </div>
       <div class="sit-card">
         <div class="sit-img">📻🙅</div>
         <div class="sit-hint">(turn off / radio)</div>
-        <input class="sit-input" id="p4" placeholder="Could/Can you...?">
+        <input class="sit-input" id="p4">
       </div>
       <div class="sit-card">
         <div class="sit-img">📰🤝</div>
-        <div class="sit-hint">(borrow / newspaper)</div>
-        <input class="sit-input" id="p5" placeholder="Can/Could I...?">
+        <div class="sit-hint">(borrow / your newspaper)</div>
+        <input class="sit-input" id="p5">
       </div>
       <div class="sit-card">
         <div class="sit-img">✏️📚</div>
-        <div class="sit-hint">(use / pen)</div>
-        <input class="sit-input" id="p6" placeholder="Can/Could I...?">
+        <div class="sit-hint">(use / your pen)</div>
+        <input class="sit-input" id="p6">
       </div>
     </div>
     <button class="check-btn" onclick="check34()">Check answers</button>
@@ -352,7 +352,7 @@ const steveAnswers = [
 
 const steveContainer = document.getElementById('steve-rows');
 for (let i = 0; i < 5; i++) {
-  steveContainer.innerHTML += `<div class="speech-row"><span class="speech-num">${i+2}</span><input class="speech-input" id="sv${i+2}" placeholder="Can you...?"></div>`;
+  steveContainer.innerHTML += `<div class="speech-row"><span class="speech-num">${i+2}</span><input class="speech-input" id="sv${i+2}"></div>`;
 }
 
 const selfContainer = document.getElementById('self-rows');
