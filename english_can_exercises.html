@@ -1,0 +1,239 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); color: var(--color-text-primary); }
+  .page { padding: 1rem 0; max-width: 700px; }
+  .section { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
+  .section-label { display: inline-block; background: #c0392b; color: #fff; font-weight: 500; font-size: 13px; border-radius: 6px; padding: 3px 10px; margin-bottom: 10px; }
+  .section-title { font-size: 15px; color: var(--color-text-primary); margin-bottom: 1rem; }
+  .img-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+  .img-box { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--color-background-secondary); font-size: 28px; gap: 4px; }
+  .img-label { font-size: 11px; color: var(--color-text-secondary); }
+  .speech-area { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 0.75rem; background: var(--color-background-secondary); }
+  .speech-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .speech-num { font-size: 13px; color: var(--color-text-secondary); min-width: 16px; }
+  .speech-input { flex: 1; border: 0.5px solid var(--color-border-tertiary); border-radius: 4px; padding: 4px 8px; font-size: 13px; background: var(--color-background-primary); color: var(--color-text-primary); }
+  .speech-input.correct { border-color: #27ae60; color: #27ae60; }
+  .speech-input.wrong { border-color: #e74c3c; color: #e74c3c; }
+  .given { color: #c0392b; font-style: italic; font-size: 13px; }
+  .self-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 0.5rem; }
+  .sentence-block { margin-bottom: 10px; font-size: 14px; line-height: 2; }
+  .fill-input { border: none; border-bottom: 1px solid var(--color-border-primary); background: transparent; color: var(--color-text-primary); font-size: 14px; padding: 0 4px; width: 160px; outline: none; }
+  .fill-input.correct { border-bottom-color: #27ae60; color: #27ae60; }
+  .fill-input.wrong { border-bottom-color: #e74c3c; color: #e74c3c; }
+  .word-bank { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .word-tag { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 20px; padding: 2px 10px; font-size: 13px; color: var(--color-text-secondary); text-decoration: line-through; }
+  .word-tag.active { text-decoration: none; color: var(--color-text-primary); }
+  .check-btn { margin-top: 0.75rem; font-size: 13px; cursor: pointer; }
+  .sit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .sit-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 0.6rem; background: var(--color-background-secondary); }
+  .sit-img { width: 100%; height: 70px; display: flex; align-items: center; justify-content: center; font-size: 30px; border-radius: 4px; background: var(--color-background-primary); margin-bottom: 6px; }
+  .sit-hint { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .sit-input { width: 100%; border: 0.5px solid var(--color-border-tertiary); border-radius: 4px; padding: 4px 6px; font-size: 12px; background: var(--color-background-primary); color: var(--color-text-primary); }
+  .sit-input.correct { border-color: #27ae60; color: #27ae60; }
+  .sit-input.wrong { border-color: #e74c3c; color: #e74c3c; }
+  .given-answer { color: #c0392b; font-size: 12px; font-style: italic; }
+  .score { font-size: 13px; color: var(--color-text-secondary); margin-top: 6px; }
+</style>
+
+<div class="page">
+
+  <div class="section">
+    <span class="section-label">30.1</span>
+    <p class="section-title">Ask Steve if he can do these things:</p>
+    <div class="img-grid">
+      <div class="img-box">🏊<span class="img-label">1. swim</span></div>
+      <div class="img-box">⛷️<span class="img-label">2. ski</span></div>
+      <div class="img-box">♟️<span class="img-label">3. chess</span></div>
+      <div class="img-box">🏃<span class="img-label">4. run 10 km</span></div>
+      <div class="img-box">🚗<span class="img-label">5. drive</span></div>
+      <div class="img-box">🐎<span class="img-label">6. ride a horse</span></div>
+    </div>
+    <div class="speech-area">
+      <div class="speech-row">
+        <span class="speech-num">1</span>
+        <span class="given">Can you swim?</span>
+      </div>
+      <div id="steve-rows"></div>
+    </div>
+    <br>
+    <p style="font-size:14px;margin-bottom:0.5rem;color:var(--color-text-secondary)">Can you do these things? Write sentences about yourself. Use <span style="color:#c0392b;font-weight:500">I can</span> or <span style="color:#c0392b;font-weight:500">I can't</span>.</p>
+    <div class="self-grid" id="self-rows"></div>
+    <button class="check-btn" onclick="checkSteve()">Check answers</button>
+    <div class="score" id="steve-score"></div>
+  </div>
+
+  <div class="section">
+    <span class="section-label">30.2</span>
+    <p class="section-title">Complete these sentences. Use <span style="color:#c0392b">can</span> or <span style="color:#c0392b">can't</span> + one of these verbs:</p>
+    <div class="word-bank">
+      <span class="word-tag" id="wb-come">come</span>
+      <span class="word-tag active" id="wb-find">find</span>
+      <span class="word-tag active" id="wb-hear">hear</span>
+      <span class="word-tag active" id="wb-see">see</span>
+      <span class="word-tag active" id="wb-speak">speak</span>
+    </div>
+    <div class="sentence-block">
+      1. I'm sorry, but we <span class="given">can't come</span> to your party next Saturday.<br>
+      2. I like this hotel room. You <input class="fill-input" id="s2" placeholder="can/can't + verb"> the mountains from the window.<br>
+      3. You are speaking very quietly. I <input class="fill-input" id="s3" placeholder="can/can't + verb"> you.<br>
+      4. Have you seen my bag? I <input class="fill-input" id="s4" placeholder="can/can't + verb"> it.<br>
+      5. Catherine got the job because she <input class="fill-input" id="s5" placeholder="can/can't + verb"> five languages.
+    </div>
+    <button class="check-btn" onclick="check32()">Check answers</button>
+    <div class="score" id="s32-score"></div>
+  </div>
+
+  <div class="section">
+    <span class="section-label">30.3</span>
+    <p class="section-title">Complete these sentences. Use <span style="color:#c0392b">can't</span> or <span style="color:#c0392b">couldn't</span> + one of these verbs:</p>
+    <div class="word-bank">
+      <span class="word-tag active" id="wb-decide">decide</span>
+      <span class="word-tag active" id="wb-eat">eat</span>
+      <span class="word-tag active" id="wb-find2">find</span>
+      <span class="word-tag active" id="wb-go1">go</span>
+      <span class="word-tag active" id="wb-go2">go</span>
+      <span class="word-tag" id="wb-sleep">sleep</span>
+    </div>
+    <div class="sentence-block">
+      1. I was tired, but I <span class="given">couldn't sleep</span>.<br>
+      2. I wasn't hungry yesterday. I <input class="fill-input" id="t2" placeholder="can't/couldn't + verb"> my dinner.<br>
+      3. Kate doesn't know what to do. She <input class="fill-input" id="t3" placeholder="can't/couldn't + verb">.<br>
+      4. I wanted to speak to Mark yesterday, but I <input class="fill-input" id="t4" placeholder="can't/couldn't + verb"> him.<br>
+      5. James <input class="fill-input" id="t5" placeholder="can't/couldn't + verb"> to the concert next Saturday. He has to work.<br>
+      6. Paula <input class="fill-input" id="t6" placeholder="can't/couldn't + verb"> to the meeting last week. She was ill.
+    </div>
+    <button class="check-btn" onclick="check33()">Check answers</button>
+    <div class="score" id="s33-score"></div>
+  </div>
+
+  <div class="section">
+    <span class="section-label">30.4</span>
+    <p class="section-title">What do you say in these situations? Use <span style="color:#c0392b">can</span> or <span style="color:#c0392b">could</span>.</p>
+    <div class="sit-grid">
+      <div class="sit-card">
+        <div class="sit-img">🚪📚</div>
+        <div class="sit-hint">(open / door)</div>
+        <div class="given-answer">Could you open the door, please?</div>
+      </div>
+      <div class="sit-card">
+        <div class="sit-img">🧂🍽️</div>
+        <div class="sit-hint">(pass / salt)</div>
+        <input class="sit-input" id="p2" placeholder="Could/Can you...?">
+      </div>
+      <div class="sit-card">
+        <div class="sit-img">📮🗺️</div>
+        <div class="sit-hint">(have / postcards)</div>
+        <input class="sit-input" id="p3" placeholder="Can/Could I...?">
+      </div>
+      <div class="sit-card">
+        <div class="sit-img">📻🙅</div>
+        <div class="sit-hint">(turn off / radio)</div>
+        <input class="sit-input" id="p4" placeholder="Could/Can you...?">
+      </div>
+      <div class="sit-card">
+        <div class="sit-img">📰🤝</div>
+        <div class="sit-hint">(borrow / newspaper)</div>
+        <input class="sit-input" id="p5" placeholder="Can/Could I...?">
+      </div>
+      <div class="sit-card">
+        <div class="sit-img">✏️📚</div>
+        <div class="sit-hint">(use / pen)</div>
+        <input class="sit-input" id="p6" placeholder="Can/Could I...?">
+      </div>
+    </div>
+    <button class="check-btn" onclick="check34()">Check answers</button>
+    <div class="score" id="s34-score"></div>
+  </div>
+</div>
+
+<script>
+const steveAnswers = [
+  "Can you ski?",
+  "Can you play chess?",
+  "Can you run 10 kilometres?",
+  "Can you drive?",
+  "Can you ride a horse?"
+];
+const selfSamples = [
+  "I can swim.", "I can't ski.", "I can play chess.",
+  "I can't run 10 kilometres.", "I can drive.", "I can't ride a horse."
+];
+
+const steveContainer = document.getElementById('steve-rows');
+for (let i = 0; i < 5; i++) {
+  steveContainer.innerHTML += `<div class="speech-row"><span class="speech-num">${i+2}</span><input class="speech-input" id="sv${i+2}" placeholder="Can you...?"></div>`;
+}
+
+const selfContainer = document.getElementById('self-rows');
+for (let i = 7; i <= 12; i++) {
+  selfContainer.innerHTML += `<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:13px;color:var(--color-text-secondary)">${i}</span><input class="speech-input" id="self${i}" placeholder="I can / I can't..."></div>`;
+}
+
+function norm(s) { return s.trim().toLowerCase().replace(/[?!.,]/g,''); }
+
+function checkSteve() {
+  let c = 0;
+  for (let i = 0; i < 5; i++) {
+    const el = document.getElementById(`sv${i+2}`);
+    const val = norm(el.value);
+    const correct = norm(steveAnswers[i]);
+    if (val === correct) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  document.getElementById('steve-score').textContent = `Steve questions: ${c}/5 correct. Self sentences: write anything with I can / I can't!`;
+}
+
+const s32 = {
+  s2: ["can see"],
+  s3: ["can't hear"],
+  s4: ["can't find"],
+  s5: ["can speak"]
+};
+function check32() {
+  let c = 0, total = 4;
+  for (const [id, accepted] of Object.entries(s32)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  document.getElementById('s32-score').textContent = `${c}/${total} correct. ✓ Answers: 2. can see | 3. can't hear | 4. can't find | 5. can speak`;
+}
+
+const s33 = {
+  t2: ["couldn't eat"],
+  t3: ["can't decide"],
+  t4: ["couldn't find"],
+  t5: ["can't go"],
+  t6: ["couldn't go"]
+};
+function check33() {
+  let c = 0, total = 5;
+  for (const [id, accepted] of Object.entries(s33)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  document.getElementById('s33-score').textContent = `${c}/${total} correct. ✓ Answers: 2. couldn't eat | 3. can't decide | 4. couldn't find | 5. can't go | 6. couldn't go`;
+}
+
+const s34 = {
+  p2: ["could you pass the salt please","can you pass the salt please","could you pass the salt","can you pass the salt"],
+  p3: ["can i have some postcards please","could i have some postcards please","can i have some postcards","could i have some postcards"],
+  p4: ["could you turn off the radio please","can you turn off the radio please","could you turn off the radio","can you turn off the radio"],
+  p5: ["can i borrow your newspaper please","could i borrow your newspaper please","can i borrow your newspaper","could i borrow your newspaper"],
+  p6: ["can i use your pen please","could i use your pen please","can i use your pen","could i use your pen"]
+};
+function check34() {
+  let c = 0, total = 5;
+  for (const [id, accepted] of Object.entries(s34)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  document.getElementById('s34-score').textContent = `${c}/${total} correct. ✓ 2. Could you pass the salt? | 3. Can I have some postcards? | 4. Could you turn off the radio? | 5. Can I borrow your newspaper? | 6. Can I use your pen?`;
+}
+</script>
