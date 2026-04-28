@@ -80,7 +80,19 @@
 
   .given { color: #c0392b; font-style: italic; font-size: 18px; }
 
-  .self-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 0.5rem; }
+  .self-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 0.5rem; counter-reset: grid-item;}
+
+  /* Increment the counter for each item */
+ .self-grid .img-box {
+   counter-increment: grid-item;
+ }
+ 
+ /* Display the number using the :before pseudo-element */
+ .self-grid .img-box::before {
+   content: counter(grid-item);
+   /* Add styling for your number here */
+   font-weight: bold;
+ }
 
   .sentence-block { font-size: 18px; line-height: 2.2; color: #2c3e50; }
   .fill-input {
