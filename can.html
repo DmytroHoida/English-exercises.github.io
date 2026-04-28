@@ -348,15 +348,22 @@ const jamieAnswers = [
   "can you ride a horse"
 ];
 
-const jamieContainer = document.getElementById('jamie-rows');
-for (let i = 0; i < 5; i++) {
-  jamieContainer.innerHTML += `<div class="speech-row"><span class="speech-num">${i+2}</span><input class="speech-input" id="sv${i+2}"></div>`;
-}
+document.getElementById('jamie-rows').innerHTML = `
+  <div class="speech-row"><span class="speech-num">2.</span><input class="speech-input" id="sv2"></div>
+  <div class="speech-row"><span class="speech-num">3.</span><input class="speech-input" id="sv3"></div>
+  <div class="speech-row"><span class="speech-num">4.</span><input class="speech-input" id="sv4"></div>
+  <div class="speech-row"><span class="speech-num">5.</span><input class="speech-input" id="sv5"></div>
+  <div class="speech-row"><span class="speech-num">6.</span><input class="speech-input" id="sv6"></div>
+`;
 
-const selfContainer = document.getElementById('self-rows');
-for (let i = 7; i <= 12; i++) {
-  selfContainer.innerHTML += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">${i}</span><input class="speech-input" id="self${i}"></div>`;
-}
+document.getElementById('self-rows').innerHTML = `
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">1.</span><input class="speech-input" id="self7"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">2.</span><input class="speech-input" id="self8"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">3.</span><input class="speech-input" id="self9"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">4.</span><input class="speech-input" id="self10"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">5.</span><input class="speech-input" id="self11"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:18px;color:#7f8c8d">6.</span><input class="speech-input" id="self12"></div>
+`;
 
 function norm(s) { return s.trim().toLowerCase().replace(/[?!.,]/g,'').replace(/\s+/g,' '); }
 
