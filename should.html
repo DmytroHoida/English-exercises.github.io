@@ -1,0 +1,458 @@
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); 
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10 and IE 11 */
+    user-select: none;         /* Standard syntax */}
+
+  .bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e8f4f8 0%, #fef9f0 40%, #f0f7ee 100%);
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 4px;
+  }
+  .header p { font-size: 18px; color: #7f8c8d; }
+
+  .section {
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: 18px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 2px 12px rgba(100,130,160,0.08);
+  }
+  .section-label {
+    display: inline-block;
+    background: #c0392b;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 6px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+  .section-title { font-size: 18px; color: #2c3e50; margin-bottom: 1rem; line-height: 1.5; }
+
+  .given { color: #c0392b; font-style: italic; font-size: 18px; }
+
+  .sentence-block { font-size: 18px; line-height: 2.2; color: #2c3e50; }
+  .fill-input {
+    border: none;
+    border-bottom: 1.5px solid #bdc3c7;
+    background: transparent;
+    color: #2c3e50;
+    font-size: 18px;
+    padding: 0 4px;
+    width: 200px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .fill-input:focus { border-bottom-color: #3498db; }
+  .fill-input.correct { border-bottom-color: #27ae60; color: #27ae60; }
+  .fill-input.wrong { border-bottom-color: #e74c3c; color: #e74c3c; }
+
+  .fill-input-wide {
+    border: none;
+    border-bottom: 1.5px solid #bdc3c7;
+    background: transparent;
+    color: #2c3e50;
+    font-size: 18px;
+    padding: 0 4px;
+    width: 320px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .fill-input-wide:focus { border-bottom-color: #3498db; }
+  .fill-input-wide.correct { border-bottom-color: #27ae60; color: #27ae60; }
+  .fill-input-wide.wrong { border-bottom-color: #e74c3c; color: #e74c3c; }
+
+  .word-bank { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .word-tag {
+    background: #f0f4f8;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 20px;
+    padding: 2px 12px;
+    font-size: 18px;
+    color: #7f8c8d;
+    text-decoration: line-through;
+  }
+  .word-tag.active { text-decoration: none; color: #2c3e50; background: #eaf3fb; }
+
+  .check-btn {
+    margin-top: 0.75rem;
+    font-size: 18px;
+    cursor: pointer;
+    background: #eaf3fb;
+    border: 0.5px solid #3498db;
+    border-radius: 8px;
+    padding: 6px 16px;
+    color: #185fa5;
+    transition: background 0.15s;
+  }
+  .check-btn:hover { background: #d4e9f7; }
+
+  .score {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* 32.2 picture grid */
+  .pic-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .pic-card {
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    background: #f8fafc;
+    padding: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .pic-emoji { font-size: 32px; }
+  .pic-bubble {
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.12);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 13px;
+    color: #2c3e50;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+  .two-col .sentence-row { display: flex; align-items: baseline; gap: 6px; font-size: 18px; color: #2c3e50; line-height: 2.2; }
+  .sentence-row .num { color: #7f8c8d; min-width: 20px; }
+
+  /* 32.3 */
+  .q-block { margin-bottom: 0.75rem; font-size: 18px; color: #2c3e50; line-height: 1.8; }
+  .q-block .context { color: #555; }
+  .q-block .prompt { font-size: 16px; color: #7f8c8d; margin-left: 4px; }
+  .q-block .answer-row { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+  .q-block .prefix { font-size: 18px; color: #2c3e50; white-space: nowrap; }
+
+  /* victory */
+  .victory-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 40, 60, 0.55);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+  .victory-overlay.show { display: flex; }
+  .victory-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 2.5rem 2rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  }
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .victory-stars { font-size: 40px; margin-bottom: 0.75rem; letter-spacing: 4px; }
+  .victory-title { font-size: 22px; font-weight: 500; color: #2c3e50; margin-bottom: 0.5rem; }
+  .victory-msg { font-size: 15px; color: #555; margin-bottom: 1rem; line-height: 1.6; }
+  .victory-keyword {
+    display: inline-block;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 8px 28px;
+    letter-spacing: 3px;
+    margin-bottom: 1.25rem;
+  }
+  .victory-close {
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 24px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+</style>
+
+<div class="bg">
+
+  <div class="header">
+    <h1>Should &amp; Shouldn't</h1>
+    <p>Complete all exercises and check your answers to unlock the secret keyword!</p>
+  </div>
+
+  <!-- 32.1 -->
+  <div class="section">
+    <span class="section-label">1</span>
+    <p class="section-title">Complete the sentences. Use <span style="color:#c0392b">you should</span> + these verbs:</p>
+    <div class="word-bank">
+      <span class="word-tag active">eat</span>
+      <span class="word-tag active">go</span>
+      <span class="word-tag active">take</span>
+      <span class="word-tag active">visit</span>
+      <span class="word-tag">watch</span>
+      <span class="word-tag active">wear</span>
+    </div>
+    <div class="sentence-block">
+      1. When you play tennis, <span class="given">you should watch</span> the ball.<br>
+      2. It's late and you're very tired. <input class="fill-input" id="r2"> to bed.<br>
+      3. <input class="fill-input" id="r3"> plenty of fruit and vegetables.<br>
+      4. If you have time, <input class="fill-input" id="r4"> the Science Museum. It's very interesting.<br>
+      5. When you're driving, <input class="fill-input" id="r5"> a seat belt.<br>
+      6. It's too far to walk from here to the station. <input class="fill-input" id="r6"> a taxi.
+    </div>
+    <button class="check-btn" onclick="check321()">Check answers</button>
+    <div class="score" id="s321-score"></div>
+  </div>
+
+  <!-- 32.2 -->
+  <div class="section">
+    <span class="section-label">2</span>
+    <p class="section-title">Write about the people in the pictures. Use <span style="color:#c0392b">He/She shouldn't … so …</span></p>
+    <div class="pic-grid">
+      <div class="pic-card">
+        <div class="pic-emoji">👩 → 📺🛋️</div>
+        <div class="pic-bubble">You watch TV too much.</div>
+      </div>
+      <div class="pic-card">
+        <div class="pic-emoji">👨 → 🍗🍔</div>
+        <div class="pic-bubble">You eat too much.</div>
+      </div>
+      <div class="pic-card">
+        <div class="pic-emoji">👩 → 💼📋</div>
+        <div class="pic-bubble">You work too hard.</div>
+      </div>
+      <div class="pic-card">
+        <div class="pic-emoji"> 👨 → 🚗💨</div>
+        <div class="pic-bubble">You drive too fast.</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="sentence-row"><span class="num">1.</span><span><span class="given">She shouldn't watch TV so much.</span></span></div>
+      <div class="sentence-row"><span class="num">3.</span><input class="fill-input-wide" id="pic3"> hard.</div>
+      <div class="sentence-row"><span class="num">2.</span>He <input class="fill-input-wide" id="pic2"></div>
+      <div class="sentence-row"><span class="num">4.</span><input class="fill-input-wide" id="pic4"></div>
+    </div>
+    <button class="check-btn" onclick="check322()">Check answers</button>
+    <div class="score" id="s322-score"></div>
+  </div>
+
+  <!-- 32.3 -->
+  <div class="section">
+    <span class="section-label">3</span>
+    <p class="section-title">You are not sure what to do, so you ask a friend. Write questions with <span style="color:#c0392b">Do you think I should … ?</span></p>
+
+    <div class="q-block">
+      <span class="context">1. You are in a shop. You are trying on a jacket. <span class="prompt">(buy?)</span></span><br>
+      <div class="answer-row"><span class="prefix">You ask your friend:</span> <span class="given">Do you think I should buy this jacket?</span></div>
+    </div>
+
+    <div class="q-block">
+      <span class="context">2. You can't drive. <span class="prompt">(learn?)</span></span><br>
+      <div class="answer-row"><span class="prefix">You ask your friend: Do you think</span> <input class="fill-input-wide" id="q2"></div>
+    </div>
+
+    <div class="q-block">
+      <span class="context">3. You don't like your job. <span class="prompt">(get another job?)</span></span><br>
+      <div class="answer-row"><span class="prefix">You ask your friend:</span> <input class="fill-input-wide" id="q3"></div>
+    </div>
+
+    <div class="q-block">
+      <span class="context">4. You are going to have a party. <span class="prompt">(invite Gary?)</span></span><br>
+      <div class="answer-row"><span class="prefix">You ask your friend:</span> <input class="fill-input-wide" id="q4"></div>
+    </div>
+
+    <button class="check-btn" onclick="check323()">Check answers</button>
+    <div class="score" id="s323-score"></div>
+  </div>
+
+  <!-- 32.4 -->
+  <div class="section">
+    <span class="section-label">4</span>
+    <p class="section-title">Write sentences with <span style="color:#c0392b">I think … should …</span> and <span style="color:#c0392b">I don't think … should …</span></p>
+    <div class="sentence-block">
+      1. We have to get up early tomorrow. &nbsp;<span style="font-size:16px;color:#7f8c8d">(go home now)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="given">I think we should go home now.</span><br>
+      2. That coat is too big for you. &nbsp;<span style="font-size:16px;color:#7f8c8d">(buy it)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="given">I don't think you should buy it.</span><br>
+      3. You don't need your car. &nbsp;<span style="font-size:16px;color:#7f8c8d">(sell it)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input class="fill-input-wide" id="th3"><br>
+      4. Karen needs a rest. &nbsp;<span style="font-size:16px;color:#7f8c8d">(have a holiday)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input class="fill-input-wide" id="th4"><br>
+      5. Sarah and Dan are too young. &nbsp;<span style="font-size:16px;color:#7f8c8d">(get married)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input class="fill-input-wide" id="th5"><br>
+      6. You're not well this morning. &nbsp;<span style="font-size:16px;color:#7f8c8d">(go to work)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input class="fill-input-wide" id="th6"><br>
+      7. James isn't well today. &nbsp;<span style="font-size:16px;color:#7f8c8d">(go to the doctor)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input class="fill-input-wide" id="th7"><br>
+      8. The hotel is too expensive for us. &nbsp;<span style="font-size:16px;color:#7f8c8d">(stay there)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<input class="fill-input-wide" id="th8">
+    </div>
+    <button class="check-btn" onclick="check324()">Check answers</button>
+    <div class="score" id="s324-score"></div>
+  </div>
+
+  <!-- 32.5 -->
+  <div class="section">
+    <span class="section-label">5</span>
+    <p class="section-title">What do you think? Write sentences with <span style="color:#c0392b">should</span>.</p>
+    <div class="sentence-block">
+      1. I think <span class="given">everybody should learn another language.</span><br>
+      2. I think everybody <input class="fill-input-wide" id="op2"><br>
+      3. I think <input class="fill-input-wide" id="op3"><br>
+      4. I don't think <input class="fill-input-wide" id="op4"><br>
+      5. I think I should <input class="fill-input-wide" id="op5">
+    </div>
+    <button class="check-btn" onclick="check325()">Check answers</button>
+    <div class="score" id="s325-score"></div>
+  </div>
+
+</div>
+
+<div class="victory-overlay" id="victory">
+  <div class="victory-box">
+    <div class="victory-stars">⭐ ⭐ ⭐</div>
+    <div class="victory-title">Perfect score!</div>
+    <div class="victory-msg">Excellent work! You got everything right.<br>Here is your secret keyword:</div>
+    <div class="victory-keyword">🧥 JACKET 🧥</div>
+    <p style="font-size:12px;color:#aaa;margin-bottom:1rem">Keep it safe — your teacher will ask for it!</p>
+    <button class="victory-close" onclick="document.getElementById('victory').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<script>
+function norm(s) { return s.trim().toLowerCase().replace(/[?!.,]/g,'').replace(/\s+/g,' '); }
+
+let ok321=false, ok322=false, ok323=false, ok324=false, ok325=false;
+
+function checkVictory() {
+  if (ok321 && ok322 && ok323 && ok324 && ok325) {
+    document.getElementById('victory').classList.add('show');
+  }
+}
+
+// 32.1
+const ans321 = {
+  r2: ["you should go"],
+  r3: ["you should eat"],
+  r4: ["you should visit"],
+  r5: ["you should wear"],
+  r6: ["you should take"]
+};
+function check321() {
+  let c = 0;
+  for (const [id, accepted] of Object.entries(ans321)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  ok321 = c === 5;
+  document.getElementById('s321-score').textContent = `${c}/5 correct. ✓ 2. you should go | 3. You should eat | 4. you should visit | 5. you should wear | 6. You should take`;
+  checkVictory();
+}
+
+// 32.2
+const ans322 = {
+  pic2: ["shouldn't eat so much","should not eat so much"],
+  pic3: ["she shouldn't work so","she should not work so"],
+  pic4: ["he shouldn't drive so fast","he should not drive so fast","she shouldn't drive so fast","she should not drive so fast"]
+};
+function check322() {
+  let c = 0;
+  for (const [id, accepted] of Object.entries(ans322)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  ok322 = c === 3;
+  document.getElementById('s322-score').textContent = `${c}/3 correct. ✓ 2. He shouldn't eat so much. | 3. She shouldn't work so hard. | 4. He shouldn't drive so fast.`;
+  checkVictory();
+}
+
+// 32.3
+const ans323 = {
+  q2: ["i should learn to drive","i should learn"],
+  q3: ["do you think i should get another job","do you think i should get a new job"],
+  q4: ["do you think i should invite gary"]
+};
+function check323() {
+  let c = 0;
+  for (const [id, accepted] of Object.entries(ans323)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  ok323 = c === 3;
+  document.getElementById('s323-score').textContent = `${c}/3 correct. ✓ 2. I should learn to drive? | 3. Do you think I should get another job? | 4. Do you think I should invite Gary?`;
+  checkVictory();
+}
+
+// 32.4
+const ans324 = {
+  th3: ["i think you should sell it"],
+  th4: ["i think she should have a holiday"],
+  th5: ["i don't think they should get married","i do not think they should get married"],
+  th6: ["i don't think you should go to work","i do not think you should go to work"],
+  th7: ["i think he should go to the doctor"],
+  th8: ["i don't think we should stay there","i do not think we should stay there"]
+};
+function check324() {
+  let c = 0;
+  for (const [id, accepted] of Object.entries(ans324)) {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (accepted.some(a => val === norm(a))) { el.classList.add('correct'); el.classList.remove('wrong'); c++; }
+    else { el.classList.add('wrong'); el.classList.remove('correct'); }
+  }
+  ok324 = c === 6;
+  document.getElementById('s324-score').textContent = `${c}/6 correct. ✓ 3. I think you should sell it. | 4. I think she should have a holiday. | 5. I don't think they should get married. | 6. I don't think you should go to work. | 7. I think he should go to the doctor. | 8. I don't think we should stay there.`;
+  checkVictory();
+}
+
+// 32.5 — open answers, just check they start with "should" somewhere and are long enough
+function check325() {
+  const ids = ['op2','op3','op4','op5'];
+  let c = 0;
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    const val = norm(el.value);
+    if (val.includes('should') && val.length > 8) {
+      el.classList.add('correct'); el.classList.remove('wrong'); c++;
+    } else {
+      el.classList.add('wrong'); el.classList.remove('correct');
+    }
+  });
+  ok325 = c === 4;
+  document.getElementById('s325-score').textContent = c === 4
+    ? `All 4 opinions written ✓`
+    : `${c}/4 — make sure each sentence includes "should" and expresses your opinion!`;
+  checkVictory();
+}
+</script>
