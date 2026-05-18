@@ -1,6 +1,9 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font-sans); }
+  body { font-family: var(--font-sans); 
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10 and IE 11 */
+    user-select: none;         /* Standard syntax */}
 
   .bg {
     min-height: 100vh;
@@ -235,7 +238,7 @@
       <div class="pic-card">
         <div class="pic-phone" style="background:#7f8c8d;">
           <span class="day">Friday</span>
-          <span class="activity">Party at …</span>
+          <span class="activity">Go to a party</span>
         </div>
         <div class="pic-name">SUE AND TOM</div>
       </div>
