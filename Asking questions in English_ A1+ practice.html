@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Asking questions: be and do/does — A1+ practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0F9; --surface:#FFFFFF; --ink:#1B2550; --muted:#58618A; --line:#CBD2EA;
+  --aux:#C8372D; --aux-soft:#FBE4E1; --subj:#2B8443; --subj-soft:#DDF1E2; --qw:#2B57C9; --qw-soft:#E0E8FB;
+  --ok:#2B8443; --bad:#C8372D;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12172B; --surface:#1B2240; --ink:#E8ECFA; --muted:#A3ABCB; --line:#323C66;
+    --aux:#FF8277; --aux-soft:#3E2230; --subj:#72D58B; --subj-soft:#1E3A30; --qw:#93AEFF; --qw-soft:#232F5C;
+    --ok:#72D58B; --bad:#FF8277; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12172B; --surface:#1B2240; --ink:#E8ECFA; --muted:#A3ABCB; --line:#323C66;
+  --aux:#FF8277; --aux-soft:#3E2230; --subj:#72D58B; --subj-soft:#1E3A30; --qw:#93AEFF; --qw-soft:#232F5C;
+  --ok:#72D58B; --bad:#FF8277; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.15;margin:0}
+a{color:var(--qw)}
+:focus-visible{outline:3px solid var(--qw);outline-offset:2px;border-radius:4px}
+.wrap{max-width:820px;margin:0 auto;padding:0 20px}
+
+/* hero */
+.hero{padding:56px 0 40px}
+.hero h1{font-size:clamp(2rem,6vw,3.25rem);font-weight:800;letter-spacing:-.02em;max-width:16ch}
+.hero p.lead{color:var(--muted);max-width:56ch;margin:14px 0 0;font-size:1.125rem}
+.swap{margin-top:34px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 24px;cursor:pointer;user-select:none}
+.swap .line{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:clamp(1.6rem,5vw,2.6rem);letter-spacing:-.01em;display:flex;flex-wrap:wrap;gap:.28em;align-items:baseline}
+.swap .line + .line{margin-top:6px}
+.swap .w{display:inline-block}
+.swap .note{margin-top:14px;color:var(--muted);font-size:.95rem}
+.c-aux{color:var(--aux)} .c-subj{color:var(--subj)} .c-qw{color:var(--qw)}
+.swap.play .q .w-aux{animation:fromRight .9s cubic-bezier(.2,.8,.2,1) both}
+.swap.play .q .w-subj{animation:fromLeft .9s cubic-bezier(.2,.8,.2,1) both}
+.swap.play .q .w-rest{animation:fade .6s .5s both}
+.swap.play .q2{animation:fade .6s 1s both}
+@keyframes fromRight{from{transform:translateX(2.6em);opacity:.2}to{transform:none;opacity:1}}
+@keyframes fromLeft{from{transform:translateX(-2.4em);opacity:.2}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.swap.play *{animation:none!important}}
+
+nav.tasks{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
+nav.tasks a{text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);padding:6px 12px;border-radius:999px;font-size:.92rem}
+nav.tasks a:hover{border-color:var(--qw);color:var(--qw)}
+
+/* rules */
+.rules{margin:40px 0 8px}
+.rules h2{font-size:1.6rem;margin-bottom:6px}
+.rules > p{color:var(--muted);margin:0 0 18px}
+.pattern{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:10px 22px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.pattern:last-of-type{border-bottom:1px solid var(--line)}
+.pattern .name{font-weight:700}
+.pattern .name small{display:block;font-weight:400;color:var(--muted);font-size:.88rem}
+.toks{display:flex;flex-wrap:wrap;gap:6px}
+.tok{padding:4px 10px;border-radius:8px;font-weight:700;background:var(--bg);border:1px solid var(--line)}
+.tok.qw{background:var(--qw-soft);color:var(--qw);border-color:transparent}
+.tok.aux{background:var(--aux-soft);color:var(--aux);border-color:transparent}
+.tok.subj{background:var(--subj-soft);color:var(--subj);border-color:transparent}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:.92rem;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:.8em;height:.8em;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend .l-qw::before{background:var(--qw)} .legend .l-aux::before{background:var(--aux)} .legend .l-subj::before{background:var(--subj)}
+.tip{margin-top:16px;padding:12px 16px;border-left:4px solid var(--aux);background:var(--surface);border-radius:0 10px 10px 0}
+
+/* tasks */
+section.task{margin:56px 0;scroll-margin-top:16px}
+.task-head{display:flex;gap:16px;align-items:flex-start;margin-bottom:6px}
+.task-num{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.25rem}
+.task-head h2{font-size:1.5rem;padding-top:6px}
+.instr{color:var(--muted);margin:4px 0 18px 60px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px 20px}
+.item{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.item:last-child{border-bottom:0}
+.item .n{flex:none;width:1.6em;color:var(--muted);font-weight:700}
+.item .body{flex:1;min-width:0}
+.fb{flex-basis:100%;margin-left:calc(1.6em + 12px);font-size:.92rem;min-height:0}
+.fb:empty{display:none}
+.fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+input[type=text],select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:6px 10px}
+input.gap{width:5.2em;text-align:center;font-weight:700;margin:0 2px}
+input.full{width:100%}
+input.right,select.right{border-color:var(--ok);background:var(--subj-soft)}
+input.wrong,select.wrong{border-color:var(--bad);background:var(--aux-soft)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px}
+button{font:inherit;font-weight:700;cursor:pointer;border-radius:10px;padding:10px 18px;border:1.5px solid var(--ink);background:var(--ink);color:var(--bg)}
+button.ghost{background:transparent;color:var(--ink)}
+button:hover{opacity:.88}
+.score{font-weight:700}
+
+/* word order */
+.built{min-height:44px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;border:1.5px dashed var(--line);border-radius:10px;margin-bottom:8px}
+.built.right{border-style:solid;border-color:var(--ok);background:var(--subj-soft)}
+.built.wrong{border-style:solid;border-color:var(--bad);background:var(--aux-soft)}
+.built:empty::before{content:"Tap the words in order";color:var(--muted);font-size:.92rem}
+.built .qm{font-weight:700;margin-left:-2px}
+.bank{display:flex;flex-wrap:wrap;gap:6px}
+.tile{font:inherit;font-weight:700;padding:5px 12px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.tile.start{border-color:var(--qw);color:var(--qw)}
+.built .tile{background:var(--surface)}
+
+/* matching */
+.match{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
+.answers-list{list-style:none;margin:0;padding:12px 0}
+.answers-list li{padding:8px 0;border-bottom:1px solid var(--line)}
+.answers-list li:last-child{border-bottom:0}
+.answers-list b{color:var(--qw);margin-right:8px}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:.9rem;color:var(--muted);font-weight:700}
+td.said{width:42%}
+td.said b{color:var(--qw)}
+.model{color:var(--muted);font-style:italic;font-size:.92rem;display:none}
+.show-models .model{display:block}
+footer{color:var(--muted);font-size:.92rem;padding:24px 0 48px;border-top:1px solid var(--line)}
+
+@media (max-width:640px){
+  .pattern{grid-template-columns:1fr}
+  .instr{margin-left:0}
+  .match{grid-template-columns:1fr}
+  .panel{padding:4px 14px}
+  .hero{padding-top:36px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>Asking questions in English</h1>
+  <p class="lead">Practice for A1+ learners: questions with <i>be</i> and questions with <i>do</i> and <i>does</i>. Type your answers and press <b>Check</b> after each task.</p>
+  <div class="swap" id="swap" role="button" tabindex="0" aria-label="Replay the word-order example">
+    <div class="line"><span class="w c-subj">They</span><span class="w c-aux">’re</span><span class="w">American.</span></div>
+    <div class="line q"><span class="w w-aux c-aux">Are</span><span class="w w-subj c-subj">they</span><span class="w w-rest">American?</span></div>
+    <div class="line q2"><span class="w c-qw">Where</span><span class="w c-aux">are</span><span class="w c-subj">they</span><span class="w">from?</span></div>
+    <div class="note">The verb jumps in front of the subject. Tap to watch again.</div>
+  </div>
+</header>
+
+<nav class="tasks" aria-label="Tasks">
+  <a href="#rules">Rules</a>
+  <a href="#t1">1. be or do?</a>
+  <a href="#t2">2. Word order</a>
+  <a href="#t3">3. Match</a>
+  <a href="#t4">4. Interview</a>
+  <a href="#t5">5. Mistakes</a>
+  <a href="#t6">6. Speed dating</a>
+  <a href="#t7">7. Speaking</a>
+</nav>
+
+<section class="rules" id="rules">
+  <h2>The rules</h2>
+  <p>With <i>be</i>, swap the verb and the subject. With other verbs, put <i>do</i> or <i>does</i> before the subject.</p>
+  <div class="pattern">
+    <div class="name">Questions with <i>be</i><small>Verb + Subject</small></div>
+    <div class="toks"><span class="tok aux">Are</span><span class="tok subj">you</span><span class="tok">tired?</span></div>
+  </div>
+  <div class="pattern">
+    <div class="name">With a question word<small>Question + Verb + Subject</small></div>
+    <div class="toks"><span class="tok qw">Where</span><span class="tok aux">are</span><span class="tok subj">you</span><span class="tok">from?</span></div>
+  </div>
+  <div class="pattern">
+    <div class="name">Other verbs: ASI<small>Auxiliary + Subject + Infinitive</small></div>
+    <div class="toks"><span class="tok aux">Do</span><span class="tok subj">you</span><span class="tok">work from home?</span></div>
+  </div>
+  <div class="pattern">
+    <div class="name">Other verbs: QuASI<small>Question + Auxiliary + Subject + Infinitive</small></div>
+    <div class="toks"><span class="tok qw">What time</span><span class="tok aux">does</span><span class="tok subj">she</span><span class="tok">start work?</span></div>
+  </div>
+  <div class="legend"><span class="l-qw">question word</span><span class="l-aux">verb <i>be</i> or auxiliary</span><span class="l-subj">subject</span></div>
+  <div class="tip"><b>Watch out:</b> use <i>does</i> for <i>he, she, it</i> and one person (<i>your boss, Anna</i>). The main verb has no -s: <i>Does she <b>like</b> coffee?</i> not <i>likes</i>.</div>
+</section>
+
+<section class="task" id="t1">
+  <div class="task-head"><div class="task-num">1</div><h2><i>Be</i> or <i>do/does</i>?</h2></div>
+  <p class="instr">Complete the questions with <b>am, is, are, do</b> or <b>does</b>.</p>
+  <div class="panel" id="t1-items"></div>
+  <div class="actions"><button data-check="t1">Check</button><span class="score" id="t1-score" aria-live="polite"></span></div>
+</section>
+
+<section class="task" id="t2">
+  <div class="task-head"><div class="task-num">2</div><h2>Put the words in order</h2></div>
+  <p class="instr">Tap the words to build a question. The blue word comes first. Tap a word in your question to send it back.</p>
+  <div class="panel" id="t2-items"></div>
+  <div class="actions"><button data-check="t2">Check</button><button class="ghost" id="t2-reset">Start again</button><span class="score" id="t2-score" aria-live="polite"></span></div>
+</section>
+
+<section class="task" id="t3">
+  <div class="task-head"><div class="task-num">3</div><h2>Match the questions and answers</h2></div>
+  <p class="instr">It’s your first day at a new job. A colleague asks you some questions. Choose the right answer for each one.</p>
+  <div class="panel match">
+    <div id="t3-items"></div>
+    <ul class="answers-list" id="t3-answers"></ul>
+  </div>
+  <div class="actions"><button data-check="t3">Check</button><span class="score" id="t3-score" aria-live="polite"></span></div>
+</section>
+
+<section class="task" id="t4">
+  <div class="task-head"><div class="task-num">4</div><h2>Make questions</h2></div>
+  <p class="instr">A journalist is writing about Tom, a chef. Write the journalist’s questions. Ask about the words in <b>blue</b>.</p>
+  <div class="panel tbl"><table>
+    <thead><tr><th>Tom says</th><th>The journalist asks</th></tr></thead>
+    <tbody id="t4-items"></tbody>
+  </table></div>
+  <div class="actions"><button data-check="t4">Check</button><span class="score" id="t4-score" aria-live="polite"></span></div>
+</section>
+
+<section class="task" id="t5">
+  <div class="task-head"><div class="task-num">5</div><h2>Find and correct the mistake</h2></div>
+  <p class="instr">These messages are from a language exchange app. Each question has one mistake. Fix it in the box.</p>
+  <div class="panel" id="t5-items"></div>
+  <div class="actions"><button data-check="t5">Check</button><span class="score" id="t5-score" aria-live="polite"></span></div>
+</section>
+
+<section class="task" id="t6">
+  <div class="task-head"><div class="task-num">6</div><h2>Write the questions</h2></div>
+  <p class="instr">Lucy is at a speed-dating night. Read her answers and write the man’s questions. Use the word in brackets. (–) means a yes/no question.</p>
+  <div class="panel tbl"><table>
+    <thead><tr><th>His question</th><th>Lucy’s answer</th></tr></thead>
+    <tbody id="t6-items"></tbody>
+  </table></div>
+  <div class="actions"><button data-check="t6">Check</button><span class="score" id="t6-score" aria-live="polite"></span></div>
+</section>
+
+<section class="task" id="t7">
+  <div class="task-head"><div class="task-num">7</div><h2>Speaking: find someone who…</h2></div>
+  <p class="instr">Write the question for each line. Then walk around the class and ask. When someone says <i>yes</i>, write their name and ask one more question: <i>Where? When? Why? How often?</i></p>
+  <div class="panel tbl" id="t7-panel"><table>
+    <thead><tr><th>Find someone who…</th><th>Your question</th><th>Name</th><th>More information</th></tr></thead>
+    <tbody id="t7-items"></tbody>
+  </table></div>
+  <div class="actions"><button class="ghost" id="t7-models">Show example questions</button></div>
+  <p class="tip" style="margin-top:20px">After the activity, tell the class two interesting things you found out. <i>Marta works at the weekend. She’s a wedding photographer.</i></p>
+</section>
+
+<footer>A1+ grammar practice · questions with <i>be</i>, ASI and QuASI word order.</footer>
+</div>
+
+<script>
+const norm = s => s.toLowerCase().replace(/[’‘]/g,"'").replace(/what's/g,"what is").replace(/[?.!,]/g,"").replace(/\s+/g," ").trim();
+const $ = id => document.getElementById(id);
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+/* hero */
+const swap = $("swap");
+const play = () => { swap.classList.remove("play"); void swap.offsetWidth; swap.classList.add("play"); };
+swap.addEventListener("click", play);
+swap.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); play(); } });
+play();
+
+function setFb(el, ok, msg){ el.className = "fb " + (ok ? "ok" : "bad"); el.textContent = msg; }
+function score(id, n, total){ $(id + "-score").textContent = n === total ? `All ${total} correct. Well done!` : `${n} of ${total} correct`; }
+
+/* Task 1 */
+const t1 = [
+  ["___ you a morning person?","are"],
+  ["___ you drink coffee before work?","do"],
+  ["Where ___ your parents live?","do"],
+  ["___ your boss nice?","is"],
+  ["What ___ your best friend do?","does"],
+  ["___ your flat near the city centre?","is"],
+  ["How often ___ you go on holiday?","do"],
+  ["Why ___ you interested in English?","are"],
+  ["___ your partner cook at the weekend?","does"],
+  ["What ___ your favourite series at the moment?","is"]
+];
+$("t1-items").innerHTML = t1.map((q,i)=>`<div class="item"><span class="n">${i+1}</span><span class="body">${q[0].replace("___",`<input type="text" class="gap" aria-label="Question ${i+1} gap" autocomplete="off" autocapitalize="off">`)}</span><div class="fb"></div></div>`).join("");
+
+/* Task 2 */
+const t2 = [
+  [["what","do","time","get up","you","at the weekend"],"what time do you get up at the weekend"],
+  [["is","your","job","stressful"],"is your job stressful"],
+  [["how","you","do","to work","get"],"how do you get to work"],
+  [["does","your","speak","partner","English"],"does your partner speak english"],
+  [["where","your","from","colleagues","are"],"where are your colleagues from"],
+  [["what kind of","you","like","films","do"],"what kind of films do you like"],
+  [["who","you","live","do","with"],"who do you live with"],
+  [["why","tired","you","are","today"],"why are you tired today"]
+];
+function buildT2(){
+  $("t2-items").innerHTML = t2.map((q,i)=>{
+    const tiles = q[0].map((w,j)=>`<button type="button" class="tile${j===0?" start":""}" data-w="${w}">${w}</button>`);
+    return `<div class="item"><span class="n">${i+1}</span><div class="body"><div class="built" data-i="${i}" aria-label="Your question ${i+1}"></div><div class="bank">${tiles.join("")}</div></div><div class="fb"></div></div>`;
+  }).join("");
+  $("t2-score").textContent = "";
+}
+buildT2();
+function refreshBuilt(built){
+  built.querySelectorAll(".qm").forEach(x=>x.remove());
+  const tiles = built.querySelectorAll(".tile");
+  tiles.forEach((t,k)=>{ const w = t.dataset.w; t.textContent = k===0 ? cap(w) : w; });
+  if (tiles.length) { const q = document.createElement("span"); q.className="qm"; q.textContent="?"; built.appendChild(q); }
+  built.classList.remove("right","wrong");
+}
+$("t2-items").addEventListener("click", e=>{
+  const t = e.target.closest(".tile"); if(!t) return;
+  const item = t.closest(".item"), built = item.querySelector(".built"), bank = item.querySelector(".bank");
+  if (t.parentElement === bank) built.insertBefore(t, built.querySelector(".qm"));
+  else { t.textContent = t.dataset.w; bank.appendChild(t); }
+  refreshBuilt(built);
+});
+$("t2-reset").addEventListener("click", buildT2);
+
+/* Task 3 */
+const t3q = ["Where do you live?","How old is your son?","Who do you have lunch with?","How long does it take to get here?","Are you married?","What do you do after work?","Why do you like this café?","How do you spell your name?"];
+const t3a = ["Because it’s quiet and the coffee is good.","About forty minutes by bus.","In a small flat near the river.","No, I’m not. I’m single.","He’s seven.","Usually with my old team.","A-N-N-A, Anna.","I go to the gym or I watch Netflix."];
+const t3key = ["c","e","f","b","d","h","a","g"];
+const letters = "abcdefgh".split("");
+$("t3-answers").innerHTML = t3a.map((a,i)=>`<li><b>${letters[i]}</b>${a}</li>`).join("");
+$("t3-items").innerHTML = t3q.map((q,i)=>`<div class="item"><span class="n">${i+1}</span><span class="body">${q}</span><select aria-label="Answer for question ${i+1}"><option value="">–</option>${letters.map(l=>`<option>${l}</option>`).join("")}</select><div class="fb"></div></div>`).join("");
+
+/* Task 4 */
+const t4 = [
+  ["I work <b>in an Italian restaurant</b>.",["where do you work"],"Where do you work?"],
+  ["I start work <b>at 2 p.m.</b>",["what time do you start work","when do you start work","what time do you start"],"What time do you start work?"],
+  ["My restaurant is very busy <b>on Saturdays</b>.",["when is your restaurant very busy","when is your restaurant busy","when is it very busy","when is it busy"],"When is your restaurant very busy?"],
+  ["My wife works <b>in a bank</b>.",["where does your wife work"],"Where does your wife work?"],
+  ["I’m <b>38</b>.",["how old are you"],"How old are you?"],
+  ["I cook <b>fish</b> at home.",["what do you cook at home","what do you cook"],"What do you cook at home?"],
+  ["My daughter <b>wants to be a vet</b>.",["what does your daughter want to be","what does your daughter want to do"],"What does your daughter want to be?"],
+  ["I’m happy <b>because I love my job</b>.",["why are you happy"],"Why are you happy?"]
+];
+$("t4-items").innerHTML = `<tr><td class="said">I’m <b>from Glasgow</b>.</td><td><i>Where are you from?</i> (example)</td></tr>` +
+  t4.map((q,i)=>`<tr class="item-row"><td class="said">${i+1}. ${q[0]}</td><td><input type="text" class="full" aria-label="Question ${i+1}" autocomplete="off"><div class="fb"></div></td></tr>`).join("");
+
+/* Task 5 */
+const t5 = [
+  ["Where you are from?","where are you from"],
+  ["Do you are a teacher?","are you a teacher"],
+  ["What music you like?","what music do you like"],
+  ["Does your sister lives in London?","does your sister live in london"],
+  ["Is your friends funny?","are your friends funny"],
+  ["When do your brother go to the gym?","when does your brother go to the gym"],
+  ["What time you finish work?","what time do you finish work"],
+  ["Are you have a dog?","do you have a dog"]
+];
+$("t5-items").innerHTML = t5.map((q,i)=>`<div class="item"><span class="n">${i+1}</span><div class="body"><input type="text" class="full" value="${q[0]}" aria-label="Correct question ${i+1}" autocomplete="off"></div><div class="fb"></div></div>`).join("");
+
+/* Task 6 */
+const t6 = [
+  ["(what)","I’m a nurse.",["what do you do","what is your job","what do you do for a living"],"What do you do?"],
+  ["(where)","I work at the city hospital.",["where do you work"],"Where do you work?"],
+  ["(–)","No, I’m not. I’m from Manchester, but I live here now.",["are you from here","are you from this city","are you from this town","are you from london"],"Are you from here?"],
+  ["(what)","At the weekend? I go hiking or I visit my mum.",["what do you do at the weekend","what do you do at weekends","what do you do on the weekend","what do you do on weekends"],"What do you do at the weekend?"],
+  ["(what kind of)","I like rock music and jazz.",["what kind of music do you like"],"What kind of music do you like?"],
+  ["(–)","Yes, I do. I have a cat. Her name is Pixie.",["do you have a pet","do you have any pets","do you have pets","do you have an animal","do you have a cat"],"Do you have a pet?"],
+  ["(how old)","Pixie? She’s three.",["how old is she","how old is pixie","how old is your cat","how old is it"],"How old is she?"],
+  ["(why)","Because my friend wants me to meet new people!",["why are you here","why are you here tonight","why are you here today","why do you come here","why are you at speed dating"],"Why are you here tonight?"]
+];
+$("t6-items").innerHTML = t6.map((q,i)=>`<tr><td><label style="display:flex;gap:8px;align-items:center"><span style="color:var(--muted);white-space:nowrap">${i+1}. ${q[0]}</span><input type="text" class="full" aria-label="Question ${i+1}" autocomplete="off"></label><div class="fb"></div></td><td>${q[1]}</td></tr>`).join("");
+
+/* Task 7 */
+const t7 = [
+  ["…is a night owl","Are you a night owl?"],
+  ["…works at the weekend","Do you work at the weekend?"],
+  ["…is good at cooking","Are you good at cooking?"],
+  ["…has a pet","Do you have a pet?"],
+  ["…is tired today","Are you tired today?"],
+  ["…reads books on the bus or train","Do you read books on the bus or train?"],
+  ["…is a big football fan","Are you a big football fan?"],
+  ["…drinks more than three coffees a day","Do you drink more than three coffees a day?"],
+  ["…goes to the gym before work","Do you go to the gym before work?"],
+  ["…speaks three languages","Do you speak three languages?"]
+];
+$("t7-items").innerHTML = t7.map((q,i)=>`<tr><td>${q[0]}</td><td>${i===0?`<i>${q[1]}</i>`:`<input type="text" class="full" aria-label="Question: ${q[0]}" autocomplete="off"><span class="model">${q[1]}</span>`}</td><td><input type="text" style="width:7em" aria-label="Name"></td><td><input type="text" class="full" aria-label="More information"></td></tr>`).join("");
+$("t7-models").addEventListener("click", e=>{
+  const p = $("t7-panel"); p.classList.toggle("show-models");
+  e.target.textContent = p.classList.contains("show-models") ? "Hide example questions" : "Show example questions";
+});
+
+/* checking */
+function checkInputs(task, inputs, accept, model){
+  let n = 0;
+  inputs.forEach((inp,i)=>{
+    const fb = inp.closest("td,.item").querySelector(".fb");
+    const v = norm(inp.value);
+    const ok = accept[i].includes(v);
+    inp.classList.toggle("right", ok); inp.classList.toggle("wrong", !ok);
+    if (ok) { n++; setFb(fb, true, "✓ Correct"); }
+    else setFb(fb, false, v ? `✗ Try again. ${model ? "Example: " + model[i] : ""}` : "✗ Write a question here.");
+  });
+  score(task, n, inputs.length);
+}
+const checks = {
+  t1(){
+    let n=0;
+    document.querySelectorAll("#t1-items .item").forEach((it,i)=>{
+      const inp = it.querySelector("input"), fb = it.querySelector(".fb");
+      const ok = norm(inp.value) === t1[i][1];
+      inp.classList.toggle("right",ok); inp.classList.toggle("wrong",!ok);
+      if (ok) { n++; fb.textContent=""; fb.className="fb"; } else setFb(fb,false, inp.value ? "✗ Look at the main verb. Is it be or another verb?" : "✗ Fill the gap.");
+    });
+    score("t1",n,t1.length);
+  },
+  t2(){
+    let n=0;
+    document.querySelectorAll("#t2-items .item").forEach((it,i)=>{
+      const built = it.querySelector(".built"), fb = it.querySelector(".fb");
+      const words = [...built.querySelectorAll(".tile")].map(t=>t.dataset.w).join(" ");
+      const ok = norm(words) === t2[i][1];
+      built.classList.toggle("right",ok); built.classList.toggle("wrong",!ok);
+      if (ok) { n++; fb.textContent=""; fb.className="fb"; } else setFb(fb,false, words ? "✗ Check the order: question word, verb or auxiliary, then subject." : "✗ Tap the words to build the question.");
+    });
+    score("t2",n,t2.length);
+  },
+  t3(){
+    let n=0;
+    document.querySelectorAll("#t3-items .item").forEach((it,i)=>{
+      const sel = it.querySelector("select"), fb = it.querySelector(".fb");
+      const ok = sel.value === t3key[i];
+      sel.classList.toggle("right",ok); sel.classList.toggle("wrong",!ok);
+      if (ok) { n++; fb.textContent=""; fb.className="fb"; } else setFb(fb,false,"✗ Try another answer.");
+    });
+    score("t3",n,t3key.length);
+  },
+  t4(){ checkInputs("t4",[...document.querySelectorAll("#t4-items input")], t4.map(q=>q[1]), t4.map(q=>q[2])); },
+  t5(){ checkInputs("t5",[...document.querySelectorAll("#t5-items input")], t5.map(q=>[q[1]]), null); },
+  t6(){ checkInputs("t6",[...document.querySelectorAll("#t6-items input")], t6.map(q=>q[2]), t6.map(q=>q[3])); }
+};
+document.querySelectorAll("[data-check]").forEach(b=>b.addEventListener("click",()=>checks[b.dataset.check]()));
+</script>
+</body>
+</html>
